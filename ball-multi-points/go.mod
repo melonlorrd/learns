@@ -1,4 +1,4 @@
-module bawls
+module ball-multi-points
 
 go 1.24.5
 

@@ -11,7 +11,7 @@ const (
 	winWidth  = 800
 	winHeight = 600
 	radius    = 160
-	numVerts  = 1024
+	numVerts  = 32
 	springK   = 0.1
 	damping   = 0.85
 )
@@ -32,8 +32,6 @@ type ball struct {
 func newBall(x, y int, r int) *ball {
 	verts := make([]vertex, numVerts)
 	for i := 0; i < numVerts; i++ {
-		// angle := 360 / numVerts
-		// angleRad := float64(angle) * (math.Pi / 180)
 		angleRad := 2 * math.Pi * float64(i) / float64(numVerts)
 
 		x := float64(x) + float64(r)*math.Cos(angleRad)
@@ -72,8 +70,8 @@ func (b *ball) update(mouseX, mouseY int32, dragging bool) {
 		forceY := springK * (restY - v.y)
 
 		// Pull toward neighbors
-		for nd := 1; nd < (numVerts / 64); nd++ {
-			weight := springK / float64(nd)
+		for nd := 1; nd < 8; nd++ {
+			weight := springK / float64(8-nd)
 
 			next := &b.vertices[(i+nd)%numVerts]
 			prev := &b.vertices[(i-nd+numVerts)%numVerts]
